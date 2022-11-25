@@ -1,0 +1,11 @@
+.upload {
+    position: fixed;
+    right: 15px;
+    bottom: 45px;  
+    font-size: 30px;
+    /* color: #fff; */
+    border:1px solid #6776f4;
+    height: 40;
+    width: 180px;
+    border-radius: 5%;
+}

@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Rochester&display=swap');
+
+.title-marca {
+    font-size: 130px;
+    font-family:'Rochester', cursive;
+}
+
+.circle-item {
+    display: flex;
+    box-shadow: 16px 16px 28px -8px rgba(86,97,179,0.75);
+    -webkit-box-shadow: 16px 16px 28px -8px rgba(86,97,179,0.75);
+    -moz-box-shadow: 16px 16px 28px -8px rgba(86,97,179,0.75);
+    margin-right: 7px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid #dad4d4f1;
+}
+
+.item-icon {
+    font-size: 25px;
+    margin: auto;
+}
+
+.descrip {
+    margin-top: 7px;
+    display: inline-flex;
+    width: 49%;
+    border-radius: 6px;
+}
+.descrip>p {
+    margin: auto;
+    margin-left: 3px;
+}
+
+footer {
+    background: #000;
+}
+
+.footer-icons {
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #cecece;
+    border-radius: 50%;
+}
+.footer-icons i {
+    color: azure;
+    margin: auto;
+    font-size: 28px;
+}

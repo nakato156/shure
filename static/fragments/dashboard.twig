@@ -1,0 +1,203 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Panel</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+<div class="row">
+    {# Left side columns #}
+    <div class="col-lg-8">
+        <div class="row">
+            {# Sales Card #}
+            <div class="col-xxl-4 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                    <h5 class="card-title">Fecha de expiraci&oacute;n </span></h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bx bx-calendar"></i>
+                        </div>
+                        <div class="ps-3">
+                            {% if cuenta_activa and (not vencido) %}
+                            <h6>{{caduca}}</h6>
+                            <span class="text-success small pt-1 fw-bold">{{dias_restantes}}</span> <span class="text-muted small pt-2 ps-1">dias restantes</span>
+                            {% elseif vencido %}
+                            <span class="text-danger small pt-1 fw-bold">Subscripcion vencida</span>
+                            {% else %}
+                            <span class="text-error small pt-1 fw-bold">Su cuenta no est&aacute; activada</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xxl-4 col-md-6">
+                <div class="card info-card revenue-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Espacio utilizado <span>| En total</span></h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bx bxs-doughnut-chart"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{size}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-4 col-xl-12">
+                <div class="card info-card customers-card">
+                    <div class="card-body">
+                    <h5 class="card-title">im&aacute;genes</h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-images"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{cant_imgs}}</h6>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {#
+            <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                <h5 class="card-title">Pagos <span>| Todos</span></h5>
+
+                <table class="table table-borderless datatable">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td>$64</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a href="#">#2147</a></th>
+                        <td>Bridie Kessler</td>
+                        <td>$47</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a href="#">#2049</a></th>
+                        <td>Ashleigh Langosh</td>
+                        <td>$147</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a href="#">#2644</a></th>
+                        <td>Angus Grady</td>
+                        <td>$67</td>
+                        <td><span class="badge bg-danger">Rejected</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a href="#">#2644</a></th>
+                        <td>Raheem Lehner</td>
+                        <td>$165</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                </div>
+
+            </div>
+            </div> #}
+
+        </div>
+    </div>
+
+    {# Right side columns #}
+    <div class="col-lg-4">
+        {# Website Traffic #}
+        <div class="card">
+            <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            </div>
+
+            <div class="card-body pb-0">
+            <h5 class="card-title">Trafico web <span>| Hoy</span></h5>
+
+            <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                    echarts.init(document.querySelector("#trafficChart")).setOption({
+                        tooltip: {
+                        trigger: 'item'
+                        },
+                        legend: {
+                        top: '5%',
+                        left: 'center'
+                        },
+                        series: [{
+                        name: 'Access From',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                            show: true,
+                            fontSize: '18',
+                            fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [{
+                            value: 1048,
+                            name: 'Search Engine'
+                            },
+                            {
+                            value: 735,
+                            name: 'Direct'
+                            },
+                            {
+                            value: 580,
+                            name: 'Email'
+                            },
+                            {
+                            value: 484,
+                            name: 'Union Ads'
+                            },
+                            {
+                            value: 300,
+                            name: 'Video Ads'
+                            }
+                        ]
+                        }]
+                    });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

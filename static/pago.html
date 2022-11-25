@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shure | pago</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=AaUv2VWwANWRbgHx9OUeO0O02kWaW6s5kKiqyEg9xFy9Wx5Wr6ZqZL5rHiq7NhDlrBHxhClch9CANcbl&currency=USD"></script>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <h3 class="text-center">Renueva tu plan</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-lg-3 col-sm-6">
+                <div class="input-group mb-3 g-2">
+                    <select id="selectPlan" class="form-select" aria-label="{{service_name}}">
+                        <option value="basico" {% if basico %} selected {%endif%}>Servicio Basico</option>
+                        <option value="normal" {%if not basico %} selected {%endif%}>Servicio Normal</option>
+                    </select>
+                    <label class="form-control">{{value}}</label>
+                </div>
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const changePlan = Number("{{alert}}");
+function initPayButton(idBtn) {
+    paypal.Buttons({
+        style:{
+            shape: 'pill',
+        },
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    reference_id: '{{user_id}}',
+                    amount: {
+                        name: '{{service_name}}',
+                        value: '{{value}}'
+                    }
+                }],
+            });
+        },
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function(orderData) {
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                if(changePlan) {
+                    fetch('/update', {
+                        method: "POST",
+                        body: JSON.stringify({
+                            "tipo": "{{service_name}}",
+                            "merchant_id" : orderData["purchase_units"][0]["payee"]["merchant_id"]
+                        })
+                    }).then(req=>req.text())
+                }
+                Swal.fire({
+                    title: transaction.status,
+                    text: `Su transaccion se ha realizado con estado ${transaction.status} y con id ${transaction.id}`,
+                    icon: transaction.status == "COMPLETED" ? 'success' : 'error',
+                    confirmButtonText: 'ok'
+                })
+                .then(res=>{
+                    location.href = "../";
+                })
+            });
+        },
+        onError: function (err) {
+            Swal.fire({
+                title: err,
+                text: `Ha ocurrido un error al procesar la transacción`,
+                icon: 'error',
+                confirmButtonText: 'ok'
+            })
+        }
+    }).render(`#${idBtn}`);
+}
+</script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/js/pago.js"></script>
+</html>

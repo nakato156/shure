@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/static/css/frag-storage.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="pagetitle">
+    <h1>Im&aacute;genes</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Panel</li>
+            <li class="breadcrumb-item active">Almacenamiento</li>
+        </ol>
+    </nav>
+</div>
+<div class="col-lg-8">
+    <div class="row d-flex">
+        <ol class="breadcrumb" id="ruta">
+            <li class="breadcrumb-item"></li>
+            <li class="breadcrumb-item active active-path" path="/" user="{{username}}">{{username}}</li>
+        </ol>
+    </div>
+    <div class="row d-flex" id="contentMyFiles">
+    {% for file in files %}
+        {% set filename = file.getFilename() %}
+        <div class="col-xxl-4 col-md-4" style="width: auto;">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <span class="d-inline-block text-truncate" style="max-width: 110px;">{{filename}}</span>
+                    <div class="d-flex align-items-center">
+                        <div class="myfiles card-icon rounded-circle d-flex align-items-center justify-content-center" path="/{{filename}}" user="{{username}}}">
+                            {% if file.isDir() %}
+                                <i class="bx bxs-folder" style="font-size: 80px; cursor: pointer;"></i>
+                            {% elseif not (filename|split('.')|slice(-1)[0] in ['png', 'jpg', 'jpeg', 'gif']) %}
+                                <i class="bx bxs-file" style="font-size: 80px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#infoFile"></i>
+                            {% else %}
+                                <img src="../storage/{{username}}/{{filename}}" alt="{{filename}}" loading="lazy" style="height: 120px;" data-bs-toggle="modal" data-bs-target="#infoFile">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+<a id="uploadFiles" class="upload d-flex align-items-center justify-content-center"><i class="bi bi-cloud-upload-fill"></i></a>
+<input id="inputUploadFile" type="file" style="display: none;" multiple>
+
+<div class="modal fade" id="infoFile" tabindex="-1" aria-labelledby="infoFileLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-felx">
+            <div class="col d-flex justify-content-center container-img"></div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Nombre</td>
+                        <td class="infofile-name"></td>
+                    </tr>
+                    <tr>
+                        <td>Tamaño</td>
+                        <td class="infofile-size"></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha modificacion</td>
+                        <td class="infofile-ctime"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row toolbar" style="font-size: 20px;">
+                <div class="col text-center"><i id="icon-download" class="bx bxs-download" style="cursor: pointer;color: #26a69a;"></i></div>
+                <div class="col text-center"><i id="icon-delete" class="bx bxs-trash" style="cursor: pointer;color: #c70039;"></i></div>
+                {# <div class="col text-center"><i class="bx bxs-edit" style="cursor: pointer;"></i></div> #}
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

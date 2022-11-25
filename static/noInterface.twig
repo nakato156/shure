@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sin interfaz</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-end">
+            <div class="text-end col-md-3 col-lg-3 col-sm-6 mt-2">
+                <i id="logout" class="bx bxs-log-out mr-10 fs-2" style="cursor: pointer;"></i>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <h2 class="text-center">!Hola {{username}}</h2>
+            <p class="text-center">Actualiza al plan Normal para obtener un panel de administrador</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-sm-7 rounded-3 border border-warning p-3">
+                <div class="row border-bottom">
+                    <h4 class="text-center">Plan Normal</h4>
+                </div>
+                <div class="row mt-2 p-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="background: none;">Panel de administrador</li>
+                        <li class="list-group-item" style="background: none;">Api</li>
+                        <li class="list-group-item" style="background: none;">Espacio ilimitado</li>
+                        <li class="list-group-item" style="background: none;">Servicio al cliente 24/7</li>
+                    </ul>
+                </div>
+                <div class="row mt-2 px-3">
+                    <button class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = init;
+    function init() {
+        const logout = document.getElementById("logout");
+        logout.addEventListener('click', (e)=>location.href = "/salir");
+    }
+</script>
+</html>
